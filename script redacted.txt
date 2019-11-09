@@ -1,0 +1,35 @@
+####################################################
+# Behavior Data Printing
+#
+# RestlessPuppet
+#
+# 10-24-2019
+#
+#####################################################
+
+add-type -AssemblyName microsoft.VisualBasic
+add-type -AssemblyName System.Windows.Forms
+
+$BDS = @{
+R01 = 'S:\NewClientInfo\Resident 01\Student Binders\Behavior Data Collection'
+R02 = 'S:\NewClientInfo\Resident 02\Student Binders\Behavior Data Collection'
+R03 = 'S:\NewClientInfo\Resident 03\Student Binders\Behavior Data Collection'
+R04 = 'S:\NewClientInfo\Resident 04\Student Binders\Behavior Data Collection'
+R05 = 'S:\NewClientInfo\Resident 05\Student Binders\Behavior Data Collection'
+R06 = 'S:\NewClientInfo\Resident 06\Student Binders\Behavior Data Collection'
+R07 = 'S:\NewClientInfo\Resident 07\Student Binders\Behavior Data Collection'
+R08 = 'S:\NewClientInfo\Resident 08\Student Binders\Behavior Data Collection'
+R09 = 'S:\NewClientInfo\Resident 09\Student Binders\Behavior Data Collection'
+R10 = 'S:\NewClientInfo\Resident 10\Student Binders\Behavior Data Collection'
+R11 = 'S:\NewClientInfo\Resident 11\Student Binders\Behavior Data Collection'
+R12 = 'S:\NewClientInfo\Resident 12\Student Binders\Behavior Data Collection'
+}
+Foreach($key in $BDS.keys)
+{
+    $value = $BDS[$key]
+    Get-ChildItem "$value\*.*" | 
+        ForEach-Object {Start-Process -FilePath $_.Name -WorkingDirectory $value -Verb Print
+	start-sleep -Seconds 10
+        [System.Windows.Forms.SendKeys]::SendWait(“~”)
+    }
+}

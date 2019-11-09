@@ -1,0 +1,60 @@
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' Comm Log Dater
+'
+' 11/6/2019
+'
+' RestlessPuppet
+'
+' V2.0
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+Sub Document_New()
+
+' declares the two variables used
+Dim wkday As Long
+Dim monday As Long
+
+' Establishes the current day of the week
+wkday = Weekday(Date, vbMonday)
+MsgBox ("Hi! I'm Eddy, your shipboard computer! I'm thrilled to tell you the dates have now inserted themselves, so no more need to enter some silly 'days until monday' nonsense. All you need to do is make sure your recipient list contains only the names you want prior to pushing that finish and merge button. Have a swell day!")
+
+' If the current day is Monday, this returns a value of 0, otherwise it computes how many days until the next monday
+If wkday = 1 Then
+monday = 0
+Else: monday = 8 - wkday
+End If
+
+' Inserts the day of the week as well as the date of the next monday (or current date if it is monday) at the bookmarks for the first three pages
+
+ActiveDocument.Bookmarks.Item("Mon3").Range.InsertAfter Format(Date + monday, "DDDD MMMM DD, YYYY ")
+ActiveDocument.Bookmarks.Item("Mon1").Range.InsertAfter Format(Date + monday, "DDDD MMMM DD, YYYY ")
+ActiveDocument.Bookmarks.Item("Mon2").Range.InsertAfter Format(Date + monday, "DDDD MMMM DD, YYYY ")
+
+' The following takes the next day after that entered for Monday and inserts the day of the week and the appropriate date (and continues this for the remainder
+' of the week, inserting at the appropriate bookmarks for each day part)
+
+ActiveDocument.Bookmarks.Item("Tue3").Range.InsertAfter Format(Date + monday + 1, "DDDD MMMM DD, YYYY ")
+ActiveDocument.Bookmarks.Item("Tue1").Range.InsertAfter Format(Date + monday + 1, "DDDD MMMM DD, YYYY ")
+ActiveDocument.Bookmarks.Item("Tue2").Range.InsertAfter Format(Date + monday + 1, "DDDD MMMM DD, YYYY ")
+
+ActiveDocument.Bookmarks.Item("Wed3").Range.InsertAfter Format(Date + monday + 2, "DDDD MMMM DD, YYYY ")
+ActiveDocument.Bookmarks.Item("Wed1").Range.InsertAfter Format(Date + monday + 2, "DDDD MMMM DD, YYYY ")
+ActiveDocument.Bookmarks.Item("Wed2").Range.InsertAfter Format(Date + monday + 2, "DDDD MMMM DD, YYYY ")
+
+ActiveDocument.Bookmarks.Item("Thu3").Range.InsertAfter Format(Date + monday + 3, "DDDD MMMM DD, YYYY ")
+ActiveDocument.Bookmarks.Item("Thu1").Range.InsertAfter Format(Date + monday + 3, "DDDD MMMM DD, YYYY ")
+ActiveDocument.Bookmarks.Item("Thu2").Range.InsertAfter Format(Date + monday + 3, "DDDD MMMM DD, YYYY ")
+
+ActiveDocument.Bookmarks.Item("Fri3").Range.InsertAfter Format(Date + monday + 4, "DDDD MMMM DD, YYYY ")
+ActiveDocument.Bookmarks.Item("Fri1").Range.InsertAfter Format(Date + monday + 4, "DDDD MMMM DD, YYYY ")
+ActiveDocument.Bookmarks.Item("Fri2").Range.InsertAfter Format(Date + monday + 4, "DDDD MMMM DD, YYYY ")
+
+ActiveDocument.Bookmarks.Item("Sat3").Range.InsertAfter Format(Date + monday + 5, "DDDD MMMM DD, YYYY ")
+ActiveDocument.Bookmarks.Item("Sat1").Range.InsertAfter Format(Date + monday + 5, "DDDD MMMM DD, YYYY ")
+ActiveDocument.Bookmarks.Item("Sat2").Range.InsertAfter Format(Date + monday + 5, "DDDD MMMM DD, YYYY ")
+
+ActiveDocument.Bookmarks.Item("Sun3").Range.InsertAfter Format(Date + monday + 6, "DDDD MMMM DD, YYYY ")
+ActiveDocument.Bookmarks.Item("Sun1").Range.InsertAfter Format(Date + monday + 6, "DDDD MMMM DD, YYYY ")
+ActiveDocument.Bookmarks.Item("Sun2").Range.InsertAfter Format(Date + monday + 6, "DDDD MMMM DD, YYYY ")
+
+End Sub

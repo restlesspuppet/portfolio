@@ -1,0 +1,39 @@
+''''''''''''''''''''''''''''''''''''''''''''''''''
+' Behavior data dater
+'
+' RestlessPuppet
+'
+' 11/6/2019
+'''''''''''''''''''''''''''''''''''''''''''''''''
+
+
+Sub Document_Open()
+
+Dim wkday As Long
+Dim monday As Long
+
+wkday = Weekday(Date, vbMonday)
+If wkday = 1 Then
+monday = 0
+Else: monday = 8 - wkday
+End If
+
+If ActiveDocument.Bookmarks.Exists("Date1") Then
+        Dim r As Range
+        Set r = ActiveDocument.Bookmarks("Date1").Range
+        r.Text = Format(Date + monday, "MMMM DD, YYYY ")
+        ActiveDocument.Bookmarks.Add "Date1", r
+    Else
+        Debug.Print "Bookmark not found: " & BName
+    End If
+
+If ActiveDocument.Bookmarks.Exists("Date2") Then
+        Set r = ActiveDocument.Bookmarks("Date2").Range
+        r.Text = Format(Date + monday + 6, "MMMM DD, YYYY ")
+        ActiveDocument.Bookmarks.Add "Date2", r
+    Else
+        Debug.Print "Bookmark not found: " & BName
+    End If
+
+
+End Sub
