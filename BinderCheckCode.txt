@@ -1,0 +1,142 @@
+''''''''''''''''''''''''''''''''''''''
+' Data Accuracy
+' 9/30/2019
+' RestlessPuppet
+'''''''''''''''''''''''''''''''''''''''
+
+
+Private Sub CommandButton1_Click()
+'button on Report page; opens user form
+
+BinderEntry.Show
+
+End Sub
+
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+Sub Week()
+
+' The following sets up the template, creating worksheets for each week of the year 
+' and enters the formula on the report page used for overall tracking
+
+
+
+Dim wksht
+wkst = 2
+Dim i As Integer
+
+
+For i = 1 To 52
+
+
+Sheets("Template").Copy After:=Sheets(ThisWorkbook.Sheets.Count)
+    ActiveSheet.Name = "Week " & i
+    Sheets("Report").Cells(1 + i, 2).Value = "= 'Week " & i & "'!$N$5"
+    wksht = wkst + 1
+    
+Next i
+
+End Sub
+
+
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+Sub Highlight()
+
+' The following sets the thresholds and highlights names based on accuracy
+
+
+Const ColName = 1
+Const ColKey = 13
+Const RowHeader = 1
+Const ColPercent = 1
+Dim RowName As Integer
+RowName = 1
+
+While Cells(RowName + RowHeader, ColName) <> ""
+    If Cells(RowName + RowHeader, ColPercent) >= 0.75 Then ' (this accuracy percentage can be changed as needed)
+        Cells(RowName + RowHeader, ColName).Interior.Color = Cells(4, ColKey).Interior.Color
+    
+    ElseIf Cells(RowName + RowHeader, ColPercent) <= 0.5 Then ' (this accuracy percentage can be changed as needed)
+        Cells(RowName + RowHeader, ColName).Interior.Color = Cells(3, ColKey).Interior.Color
+    Else: Cells(RowName + RowHeader, ColName).Interior.Color = Cells(5, ColKey).Interior.Color
+    End If
+    RowName = RowName + 1
+Wend
+End Sub
+
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+Sub UserForm_Initialize()
+'Clear all values and set courser in first box
+    wknum.Value = ""
+    sn.Value = ""
+    night.Value = ""
+    obd.Value = ""
+    ocl.Value = ""
+    morning.Value = ""
+    mbd.Value = ""
+    mcl.Value = ""
+    mgt.Value = ""
+    wknum.SetFocus
+End Sub
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+Sub CancelBtn_Click() ' Closes the form if Cancel is selected
+    Unload Me
+End Sub
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+Sub SubmitBtn_Click()
+
+' Establish constants and variables needed
+Const RowHeader = 1
+Const ColName = 1
+Const ColNight = 2
+Const ColOBD = 3
+Const ColOCL = 4
+Const ColMorning = 5
+Const ColMBD = 6
+Const ColMCL = 7
+Const ColMGT = 8
+
+Dim RowName As Integer
+	RowName = 1
+Dim wksht
+	wksht = "Week " & wknum
+
+' The following iterates through the staff names previously entered, and if no match found, finds the next blank row
+While Sheets(wksht).Cells(RowName + RowHeader, ColName) <> "" And Sheets(wksht).Cells(RowName + RowHeader, ColName).Value <> sn
+    RowName = RowName + 1
+Wend
+
+' The following enters the staff name only if it has not yet been entered
+If Sheets(wksht).Cells(RowName + RowHeader, ColName) = "" Then
+    Sheets(wksht).Cells(RowName + RowHeader, ColName).Value = sn
+End If
+
+'The following adds the numbers entered into the form to the previous value to update the data
+Sheets(wksht).Cells(RowName + RowHeader, ColNight).Value = Sheets(wksht).Cells(RowName + RowHeader, ColNight).Value + night
+Sheets(wksht).Cells(RowName + RowHeader, ColOBD).Value = Sheets(wksht).Cells(RowName + RowHeader, ColOBD).Value + obd
+Sheets(wksht).Cells(RowName + RowHeader, ColOCL).Value = Sheets(wksht).Cells(RowName + RowHeader, ColOCL).Value + ocl
+Sheets(wksht).Cells(RowName + RowHeader, ColMorning).Value = Sheets(wksht).Cells(RowName + RowHeader, ColMorning).Value + morning
+Sheets(wksht).Cells(RowName + RowHeader, ColMBD).Value = Sheets(wksht).Cells(RowName + RowHeader, ColMBD).Value + mbd
+Sheets(wksht).Cells(RowName + RowHeader, ColMCL).Value = Sheets(wksht).Cells(RowName + RowHeader, ColMCL).Value + mcl
+Sheets(wksht).Cells(RowName + RowHeader, ColMGT).Value = Sheets(wksht).Cells(RowName + RowHeader, ColMGT).Value + mgt
+
+' This resets the form to blank values for the next entry
+wknum.Value = ""
+    sn.Value = ""
+    night.Value = ""
+    obd.Value = ""
+    ocl.Value = ""
+    morning.Value = ""
+    mbd.Value = ""
+    mcl.Value = ""
+    mgt.Value = ""
+    wknum.SetFocus
+
+End Sub
+
+
+
