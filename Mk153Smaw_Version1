@@ -1,0 +1,36 @@
+Dim quarter As String
+Dim AccountCategory As String
+Dim QtrTotal As Double
+Dim currentcategory As Integer
+Dim currentquarter As String
+
+intdatrow = 1
+intdatcol = 1
+intrptrow = 7
+intrptcol = 1
+
+quarter = ""
+AccountCategory = ""
+QtrTotal = 0
+
+currentcategory = mergeSheet.Cells(1, 2).Value
+currentquarter = mergeSheet.Cells(1, 3).Value
+
+While mergeSheet.Cells(intdatrow, 1).Value > 0 'while the cell has any value in it If mergeSheet.Cells(intdatrow, 2).Value = currentcategory Then '
+    if the value in the column = current category then
+        If mergeSheet.Cells(intdatrow, 3).Value = currentquarter Then 
+            QtrTotal = QtrTotal + mergeSheet.Cells(intdatrow, 5).Value
+        Else
+            rptSheet.Cells(intrptrow, 2).Value = currentcategory
+            rptSheet.Cells(intrptrow, 3).Value = QtrTotal
+            intrptcol = intrptcol + 1
+        End If
+        intdatrow = intdatrow + 1
+    Else
+        currentcategory = mergeSheet.Cells(intdatrow, 2).Value
+        rptSheet.Cells(intrptrow + 1, 1).Value = currentcategory
+    End If
+Wend
+rptSheet.Activate
+rptSheet.Range("A1").Select
+End Sub

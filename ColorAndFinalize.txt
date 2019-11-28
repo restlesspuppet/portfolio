@@ -14,7 +14,7 @@ Option Compare Text
 Sub Colorer()
 
 Const ColName = 2       ' these set the columns containing the values
-Const ColHouse = 2      ' for staff name, status on the staff info sheet
+Const ColHouse = 3      ' for staff name, status on the staff info sheet
 Const ColStatus = 4     '
 Const ColKey = 26       ' The key is located on the Schedule sheet in
 Const RowHeader = 1     ' column #26
@@ -76,10 +76,10 @@ ThisWorkbook.Sheets("StaffInfo").Range("B:B").ClearFormats      ' clears all for
                 ElseIf ThisWorkbook.Sheets("StaffInfo").Cells(RowStaff + RowHeader, ColStatus) = Blank Then
                     ThisWorkbook.Sheets("StaffInfo").Cells(RowStaff + RowHeader, ColName).Interior.Color = xlNone
                     
-            End If
-            RowStaff = RowStaff + 1
+            End If 'this closes the IF statement
+            RowStaff = RowStaff + 1 'This advances the row by one so the next iteration through the While loop looks at the next row down
    
-        Wend
+        Wend 'This closes out the While loop
 
 RowStaff = 1
 ' the following 'While' statement is used to cycle through cells, looking for non-empty ones. The loop ends if it encounters more than 21 blank cells in the given column
@@ -113,13 +113,13 @@ RowStaff = 1
 
         If ThisWorkbook.Sheets("Schedule").Cells(RowStaff + RowHeader, Thirties) = ThisWorkbook.Sheets("StaffInfo").Cells(RowName + RowHeader, ColName) Then
             ThisWorkbook.Sheets("Schedule").Cells(RowStaff + RowHeader, Thirties).Interior.Color = ThisWorkbook.Sheets("StaffInfo").Cells(RowName + RowHeader, ColName).Interior.Color
-            RowName = 1
-            RowStaff = RowStaff + 1
-        Else: RowName = RowName + 1
-        End If
-    Wend
+            RowName = 1 'This line resets the name counter to 1 in the event of a match
+            RowStaff = RowStaff + 1 'this line advances the loop to the next row on the schedule
+        Else: RowName = RowName + 1 'this selects the next row so that value can be compared on the next iteration of the loop
+        End If 'This closes out the IF statement 
+    Wend 'This closes out the WHILE loop 
     
-RowStaff = 1
+RowStaff = 1 'This resets the row on the schedule to 1 for use in the next loop
 
     While ThisWorkbook.Sheets("Schedule").Cells(RowStaff + RowHeader, Fourties) <> "" _
     Or ThisWorkbook.Sheets("Schedule").Cells(RowStaff + RowHeader + 1, Fourties) <> "" _
@@ -255,8 +255,9 @@ While Range(DayCell).Value = "" Or Range(DateCell).Value = ""
 While valid = False
   dayString = InputBox("Enter the day of the week you wish to save as: ")
 
-    dayString = StrConv(dayString, vbProperCase)
+    dayString = StrConv(dayString, vbProperCase) ' This converts the first letter of the day entered to a capital letter
     
+	'These lines ensure a valid day is entered; the day is used to determine what sheet of the workbook to save to later on 
     If dayString = "Sunday" Or _
         dayString = "Monday" Or _
         dayString = "Tuesday" Or _
@@ -312,10 +313,10 @@ Workbooks("Schedule").Sheets("Schedule").Range("A1:W56").Copy _
 ' These three lines print a single copy of the schedule with the cells highlighted, then clears the colors and prints an additional 5 copies for distribution
 
 Workbooks("Schedule").Sheets("Tmp").PrintOut
-Workbooks("Schedule").Sheets("Tmp").Range("A1:X57").Interior.Color = Workbooks("Schedule").Sheets("Tmp").Range("Z7").Interior.Color
+Workbooks("Schedule").Sheets("Tmp").Range("A1:X57").Interior.Color = xlNone
 Workbooks("Schedule").Sheets("Tmp").PrintOut , , 5
 
-'The following clears the contents from the schedule, with the last line resetting the colors, preparing the schedule for future use.
+'The following clears the contents from the schedule, with the last line resetting the colors, preparing the schedule for future use. Redundancy is due to the formatting of the schedule page and the merged cells 
 
 Range("R2:U4").ClearContents
 Range("R6:U8").ClearContents
