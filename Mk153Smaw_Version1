@@ -16,8 +16,8 @@ QtrTotal = 0
 currentcategory = mergeSheet.Cells(1, 2).Value
 currentquarter = mergeSheet.Cells(1, 3).Value
 
-While mergeSheet.Cells(intdatrow, 1).Value > 0 'while the cell has any value in it If mergeSheet.Cells(intdatrow, 2).Value = currentcategory Then '
-    if the value in the column = current category then
+While mergeSheet.Cells(intdatrow, 1).Value > 0 'while the cell has any value in it
+    If mergeSheet.Cells(intdatrow, 2).Value = currentcategory Then 'if the value in the column = current category then
         If mergeSheet.Cells(intdatrow, 3).Value = currentquarter Then 
             QtrTotal = QtrTotal + mergeSheet.Cells(intdatrow, 5).Value
         Else
