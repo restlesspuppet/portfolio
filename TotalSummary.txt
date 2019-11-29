@@ -21,7 +21,7 @@ Const colQtr = 3
 Const colAmount = 5
 
 ' Next, I declare the two variables that will be used to cycle through the two worksheets.
-' Because there is a header row on the report sheet, it starts on row 2
+' Because there is a header row on the sheets, it starts on row 2
 Dim datRow
     datRow = 2
 Dim rptRow
@@ -29,16 +29,19 @@ Dim rptRow
 
 ' The first WHILE loop checks that the row on the data sheet is not empty
 While Sheets("mergeSheet").Cells(datRow, colCategory) <> "":
-    
+
+'The second WHILE loop checks if the category is not empty, and that it is not the same as the current row of data
     While Sheets("rptSheet").Cells(rptRow, rptCategory) <> "" _
      And Sheets("rptSheet").Cells(rptRow, rptCategory) <> Sheets("mergeSheet").Cells(datRow, colCategory):
         rptRow = rptRow + 1
     Wend
-    
+
+'The IF statement checks if the row is empty, and if so, sets the category 
     If Sheets("rptSheet").Cells(rptRow, rptCategory) = "" Then
         Sheets("rptSheet").Cells(rptRow, rptCategory) = Sheets("mergeSheet").Cells(datRow, colCategory)
     End If
 
+'This IF statement checks if the data is Q1, Q2, Q3, or Q4, and adds the amount to the correct column
     If Sheets("mergeSheet").Cells(datRow, colQtr) = "Q1" Then
         Sheets("rptSheet").Cells(rptRow, Q1) = Sheets("rptSheet").Cells(rptRow, Q1) + Sheets("mergeSheet").Cells(datRow, colAmount)
     ElseIf Sheets("mergeSheet").Cells(datRow, colQtr) = "Q2" Then
@@ -51,6 +54,7 @@ While Sheets("mergeSheet").Cells(datRow, colCategory) <> "":
         MsgBox ("Something looks wrong")
     End If
     
+'The final lines advance the row of data being looked at, then closes out the very first WHILE loop used    
     datRow = datRow + 1
     
 Wend
