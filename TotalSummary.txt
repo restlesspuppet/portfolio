@@ -1,0 +1,57 @@
+Option Explicit
+
+''''''''''''''''''''''''''''''''''
+' Summary by category and quarter
+' by RestlessPuppet
+' 11/29/2019
+''''''''''''''''''''''''''''''''''
+
+Sub Total_By_Category()
+' first I establish constants; these are used throughout the code for readability,
+' but these values do not change over the course of the code. That way, if the
+' format of either page changes in the future, these values only have to be updated
+' in this one spot, rather than trying to find them all scattered throughout the code.
+Const rptCategory = 1
+Const Q1 = 2
+Const Q2 = 3
+Const Q3 = 4
+Const Q4 = 5
+Const colCategory = 2
+Const colQtr = 3
+Const colAmount = 5
+
+' Next, I declare the two variables that will be used to cycle through the two worksheets.
+' Because there is a header row on the report sheet, it starts on row 2
+Dim datRow
+    datRow = 2
+Dim rptRow
+    rptRow = 2
+
+' The first WHILE loop checks that the row on the data sheet is not empty
+While Sheets("mergeSheet").Cells(datRow, colCategory) <> "":
+    
+    While Sheets("rptSheet").Cells(rptRow, rptCategory) <> "" _
+     And Sheets("rptSheet").Cells(rptRow, rptCategory) <> Sheets("mergeSheet").Cells(datRow, colCategory):
+        rptRow = rptRow + 1
+    Wend
+    
+    If Sheets("rptSheet").Cells(rptRow, rptCategory) = "" Then
+        Sheets("rptSheet").Cells(rptRow, rptCategory) = Sheets("mergeSheet").Cells(datRow, colCategory)
+    End If
+
+    If Sheets("mergeSheet").Cells(datRow, colQtr) = "Q1" Then
+        Sheets("rptSheet").Cells(rptRow, Q1) = Sheets("rptSheet").Cells(rptRow, Q1) + Sheets("mergeSheet").Cells(datRow, colAmount)
+    ElseIf Sheets("mergeSheet").Cells(datRow, colQtr) = "Q2" Then
+        Sheets("rptSheet").Cells(rptRow, Q2) = Sheets("rptSheet").Cells(rptRow, Q2) + Sheets("mergeSheet").Cells(datRow, colAmount)
+    ElseIf Sheets("mergeSheet").Cells(datRow, colQtr) = "Q3" Then
+        Sheets("rptSheet").Cells(rptRow, Q3) = Sheets("rptSheet").Cells(rptRow, Q3) + Sheets("mergeSheet").Cells(datRow, colAmount)
+    ElseIf Sheets("mergeSheet").Cells(datRow, colQtr) = "Q4" Then
+        Sheets("rptSheet").Cells(rptRow, Q4) = Sheets("rptSheet").Cells(rptRow, Q4) + Sheets("mergeSheet").Cells(datRow, colAmount)
+    Else
+        MsgBox ("Something looks wrong")
+    End If
+    
+    datRow = datRow + 1
+    
+Wend
+End Sub
